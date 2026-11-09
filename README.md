@@ -28,7 +28,7 @@ GITHUB_DISPATCH_WORKFLOWS=true
 GITHUB_MULTISITE=false
 ```
 
-When a configured Statamic event fires (entry, term, nav, global set, collection, taxonomy, or form changes), the addon dispatches the GitHub Actions workflow using `GITHUB_REF` as the ref. You can also trigger it manually from the GitHub Workflow Dispatch utility in the control panel.
+When a configured Statamic event fires (entry, term, nav, global set, collection, taxonomy, or form changes), the addon dispatches the GitHub Actions workflow using `GITHUB_REF` as the ref. You can also trigger it manually from the GitHub Workflow Dispatch utility in the control panel. In multisite mode the utility lets you pick which sites to dispatch, one workflow run per selected site.
 
 ### Multisite
 
@@ -50,7 +50,11 @@ on:
       site:
         required: true
         type: string
-``` Events that aren't tied to a single site (collections, taxonomies, terms, forms, global sets, blueprint saves, and the manual utility dispatch) dispatch the workflow once per site.
+```
+
+Events that aren't tied to a single site (collections, taxonomies, terms, forms, global sets, blueprint saves, and the manual utility dispatch) dispatch the workflow once per site.
+
+Entry saves only dispatch for the site of the entry that was actually saved. When an origin entry is saved, Statamic re-saves its localizations in other sites, but those cascaded saves do not trigger additional dispatches.
 
 You can also publish the config file to toggle individual event types:
 
